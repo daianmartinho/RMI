@@ -1,0 +1,7 @@
+sou a primeira linha do arquivo 3
+sou a segunda linha do arquivo 3
+sou a quarta linha do arquivo 3
+sou a quinta linha do arquivo 3
+sou a sexta linha do arquivo 3
+sou a setima linha do arquivo 3
+sou a oitava linha do arquivo 3

@@ -1,0 +1,7 @@
+sou a primeira linha do arquivo 2
+sou a segunda linha do arquivo 2
+sou a quarta linha do arquivo 2
+sou a quinta linha do arquivo 2
+sou a sexta linha do arquivo 2
+sou a setima linha do arquivo 2
+sou a oitava linha do arquivo 2
