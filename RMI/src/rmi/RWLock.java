@@ -13,10 +13,10 @@ import java.rmi.RemoteException;
  * @author Daian
  */
 public interface RWLock extends Remote {
-    public abstract void acquireReadLock(String arq) throws RemoteException;
-    public abstract void acquireWriteLock(String arq) throws RemoteException;
-    public abstract void releaseReadLock(String arq) throws RemoteException;
-    public abstract void releaseWriteLock(String arq) throws RemoteException;
+//    public abstract void acquireReadLock(String arq) throws RemoteException;
+//    public abstract void acquireWriteLock(String arq) throws RemoteException;
+//    public abstract void releaseReadLock(String arq) throws RemoteException;
+//    public abstract void releaseWriteLock(String arq) throws RemoteException;
     public abstract String read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException;
     public abstract void write() throws RemoteException;
     

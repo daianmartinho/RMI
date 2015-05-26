@@ -66,7 +66,7 @@ public class Database extends UnicastRemoteObject implements RWLock {
         }
     }
 
-    @Override
+    
     public void acquireReadLock(String arq) throws RemoteException {
         try {
             if (arq.equals("arquivo1.txt")) {
@@ -112,7 +112,7 @@ public class Database extends UnicastRemoteObject implements RWLock {
 
     }
 
-    @Override
+    
     public void acquireWriteLock(String arq) throws RemoteException {
         try {
             if (arq.equals("arquivo1.txt")) {
@@ -128,7 +128,7 @@ public class Database extends UnicastRemoteObject implements RWLock {
 
     }
 
-    @Override
+    
     public void releaseReadLock(String arq) throws RemoteException {
         try {
             if (arq.equals("arquivo1.txt")) {
@@ -165,7 +165,7 @@ public class Database extends UnicastRemoteObject implements RWLock {
         }
     }
 
-    @Override
+    
     public void releaseWriteLock(String arq) throws RemoteException {
         if (arq.equals("arquivo1.txt")) {
             dbArquivo1.release();
@@ -179,6 +179,7 @@ public class Database extends UnicastRemoteObject implements RWLock {
 
     @Override
     public String read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException {
+        
         String text = "";
         try {
             raf = new RandomAccessFile(nomeArq, "r");
