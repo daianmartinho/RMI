@@ -28,12 +28,11 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor{
     }
 
     @Override
-    public String read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, FileNotFoundException {
+    public List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, FileNotFoundException {
         Arquivo arquivo = buscarArquivo(nomeArq);
         //System.out.println("nº leitores em " + nomeArq + " = "+arquivo.getControle().getNumeroLeitores());
-        arquivo.getControle().acquireReadLock();
-        
-        String conteudoLido = arquivo.read(numLinha, qtdLinhas);
+        arquivo.getControle().acquireReadLock();        
+        List<String> conteudoLido = arquivo.read(numLinha, qtdLinhas);
         arquivo.getControle().releaseReadLock(); 
         return conteudoLido;
     }

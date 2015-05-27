@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import rmi.Servidor;
 
 
@@ -18,7 +19,7 @@ public class Leitor implements Runnable {
 
     public static void main(String[] args) {
         //to criando 2 threads pra cada arquivo
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 6; i++) {
             (new Thread(new Leitor("arquivo1.txt"))).start();
             //(new Thread(new Reader("arquivo2.txt"))).start();
             //(new Thread(new Reader("arquivo3.txt"))).start();
@@ -43,10 +44,10 @@ public class Leitor implements Runnable {
 
         while (running) {
 
-            String text;
+            List<String> text;
             try {
-                text = db.read(this.arquivo, 3, 1);
-                System.out.println(Thread.currentThread() + "\n"+ text);
+                text = db.read(this.arquivo, 0, 1);
+                System.out.println(Thread.currentThread().getName() +" leitura:" + "\n"+ text);
 
             } catch (RemoteException ex) {
                 System.out.println("Problema no acesso remoto");

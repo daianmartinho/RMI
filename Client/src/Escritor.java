@@ -25,9 +25,9 @@ public class Escritor implements Runnable {
 
     public static void main(String[] args) {
         //to criando 2 threads pra cada arquivo
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             (new Thread(new Escritor("arquivo1.txt"))).start();
-            //(new Thread(new Reader("arquivo2.txt"))).start();
+            //(new Thread(new Escritor("arquivo1.txt"))).start();
             //(new Thread(new Reader("arquivo3.txt"))).start();
         }
     }
@@ -54,7 +54,7 @@ public class Escritor implements Runnable {
         while (running) {
             
             List<String> conteudo = new ArrayList();
-            conteudo.add("primeira linha arquivo 1");
+            conteudo.add(""+Thread.currentThread());
             try {
                 db.write(this.arquivo, conteudo);
                // System.out.println(Thread.currentThread() + "\n"+ text);

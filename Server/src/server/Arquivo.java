@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,65 +29,59 @@ public class Arquivo {
         this.nome = nome;
     }
 
-    public String read(int numLinha, int qtdLinhas) throws RemoteException {
-
-        String text = "";
+    public List<String> read(int inicio, int qtdLinhas) throws RemoteException {
+        List<String> linhas = new ArrayList();
+        long ponteiro = 0;        
+        int contaLinhas = 0;
+        
         try {
             raf = new RandomAccessFile(nome, "r");
-            if(raf.length()!=0){
-                int ponteiro=0;                
-                int contaLinha=1;
-                
-                while(ponteiro<raf.length()){
-                    if(contaLinha==numLinha){
-                        
-                    }
-                }
-                
-                
-            }
-            raf.seek(0);
-            int contaLinha = 1;
-            int seek = 0;
-            do {
-                seek += Integer.parseInt(raf.readLine());
-                System.out.println("seek atr= " + seek);
-                contaLinha++;
-            } while (contaLinha != numLinha);
-
-            System.out.println("seek final = " + seek);
-            raf.seek(seek);
-
+            //encontra linha
+            raf.seek(0);            
+            while(inicio!=contaLinhas){
+                raf.seek(ponteiro);//sempre reposicionar pois outra thread pode modificar o ponteiro durante a execução
+                raf.readUTF();                
+                contaLinhas++;
+                ponteiro = raf.getFilePointer();
+            }            
+                                  
             while (qtdLinhas != 0) {
-                text += raf.readLine() + "\n";
-                qtdLinhas--;
-            }
+                raf.seek(ponteiro); 
+                System.out.println(ponteiro);
+                String linha = raf.readUTF();
+                ponteiro = raf.getFilePointer();
+                System.out.println(Thread.currentThread().getName()+" leu "+linha + "ponteiro = " + ponteiro);
+                linhas.add(linha);
+                
+                qtdLinhas--;               
 
+            }
+            //if(controle.getNumeroLeitores()==1){
+                raf.close();
+            //}
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("read: arquivo nao encontrado");
         } catch (IOException ex) {
-            System.out.println("Número de linha inválido");
-        }
-        return text;
+            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+
+        return linhas;
     }
 
-    public void write(List<String> conteudo) throws RemoteException {
+    public void write(List<String> linhas) throws RemoteException {
 
         try {
-            System.out.println("entrou no write");
             raf = new RandomAccessFile(nome, "rw");
-            for (String linha : conteudo) {
-                System.out.println(linha);
-                raf.seek(raf.length());
-                //System.out.println("");
-                raf.write(linha.getBytes().length);
+            for (String linha : linhas) {
+                raf.seek(raf.length());               
                 raf.writeUTF(linha);
             }
             raf.close();
+
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("write: arquivo nao encontrado");
         } catch (IOException ex) {
-            System.out.println("Número de linha inválido");
+            System.out.println("write: Número de linha inválido");
         }
     }
 

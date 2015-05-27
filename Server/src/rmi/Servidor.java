@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface Servidor extends Remote{
     
-    String read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, FileNotFoundException;
+    List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, FileNotFoundException;
     void write(String nomeArq, List<String> conteudo) throws RemoteException, FileNotFoundException;
     
 }
