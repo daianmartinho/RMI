@@ -29,8 +29,8 @@ public class ControleConcorrencia {
         try {
             //pede lock pra alterar qtd de leitores no arquivo especifico.               
             mutex.acquire();
-            ++numeroLeitores;
-
+            
+            ++numeroLeitores;            
             //se sou o primeiro leitor, diz a todos os outros
             //que o arquivo está sendo lido
             if (numeroLeitores == 1) {
@@ -74,5 +74,8 @@ public class ControleConcorrencia {
     public void releaseWriteLock() throws RemoteException {
         mutexAcessoArquivo.release(); 
     }
-
+    
+    public int getNumeroLeitores(){
+        return this.numeroLeitores;
+    }
 }

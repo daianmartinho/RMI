@@ -5,20 +5,18 @@
  */
 package server;
 
+import rmi.Servidor;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-/**
- *
- * @author lucas
- */
+
 public class Main {
     
     public static void main(String[] args) {
         try {
             Registry reg = LocateRegistry.createRegistry(1099);
             Servidor servidor = new ServidorImpl();
-            reg.rebind("server", servidor);
+            reg.rebind("RWAPI", servidor);
             System.out.println("server started");
         } catch (Exception e) {
             System.out.println(e);
