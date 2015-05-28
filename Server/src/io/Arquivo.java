@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server;
+package io;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,12 +21,9 @@ import java.util.logging.Logger;
  */
 public class Arquivo {
 
-    private ControleConcorrencia controle;
     private String nome;
-    private RandomAccessFile raf;
 
-    public Arquivo(String nome, ControleConcorrencia controle) {
-        this.controle = controle;
+    public Arquivo(String nome) {
         this.nome = nome;
     }
 
@@ -35,7 +33,7 @@ public class Arquivo {
         int contaLinhas = 0;
         
         try {
-            raf = new RandomAccessFile(nome, "r");
+            RandomAccessFile raf = new RandomAccessFile(nome, "r");
             //encontra linha
             raf.seek(0);            
             while(inicio!=contaLinhas){
@@ -69,9 +67,8 @@ public class Arquivo {
     }
 
     public void write(List<String> linhas) throws RemoteException {
-
         try {
-            raf = new RandomAccessFile(nome, "rw");
+            RandomAccessFile raf = new RandomAccessFile(nome, "rw");
             for (String linha : linhas) {
                 raf.seek(raf.length());               
                 raf.writeUTF(linha);
@@ -83,6 +80,7 @@ public class Arquivo {
         } catch (IOException ex) {
             System.out.println("write: Número de linha inválido");
         }
+        System.out.println("Escrevendo no servidor..");
     }
 
     public String getNome() {
@@ -91,14 +89,6 @@ public class Arquivo {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public ControleConcorrencia getControle() {
-        return controle;
-    }
-
-    public void setControle(ControleConcorrencia controle) {
-        this.controle = controle;
     }
 
 }

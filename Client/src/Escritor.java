@@ -4,9 +4,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import rmi.Servidor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import server.Servidor;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,6 +64,8 @@ public class Escritor implements Runnable {
                 System.out.println("Problema no acesso remoto");
             } catch (FileNotFoundException ex) {
                 System.out.println("Arquivo não encontrado");
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
             }
 
             running = false;

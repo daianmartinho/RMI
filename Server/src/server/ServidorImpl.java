@@ -5,7 +5,9 @@
  */
 package server;
 
-import rmi.Servidor;
+import concorrencia.ControladorConcorrencia;
+import concorrencia.ControladorConcorrenciaFactory;
+import io.Arquivo;
 import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -20,47 +22,54 @@ import java.util.List;
  */
 public class ServidorImpl extends UnicastRemoteObject implements Servidor{
     
-    private List<Arquivo> arquivos;
+    private Collection<GerenciadorArquivo> gerenciadores;
+    // ALTERE AQUI PARA O CAMINHO DOS SEUS ARQUIVOS
+    private static final String NOME_ARQUIVO_1 = "/home/lucas/Documents/teste.txt";
+    private static final String NOME_ARQUIVO_2 = "/home/lucas/Documents/teste2.txt";
+    private static final String NOME_ARQUIVO_3 = "/home/lucas/Documents/teste3.txt";
     
-    public ServidorImpl()throws RemoteException{
+    
+    public ServidorImpl(String tipoPrioridade)throws RemoteException{
         super();
-        popular();
+        init(tipoPrioridade);
     }
 
     @Override
-    public List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, FileNotFoundException {
-        Arquivo arquivo = buscarArquivo(nomeArq);
-        //System.out.println("nº leitores em " + nomeArq + " = "+arquivo.getControle().getNumeroLeitores());
-        arquivo.getControle().acquireReadLock();        
-        List<String> conteudoLido = arquivo.read(numLinha, qtdLinhas);
-        arquivo.getControle().releaseReadLock(); 
-        return conteudoLido;
+    public List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, InterruptedException, FileNotFoundException {
+        GerenciadorArquivo gerenciador = find(nomeArq);
+        return gerenciador.read(numLinha, qtdLinhas); 
     }
 
     @Override
-    public void write(String nomeArq, List<String> conteudo) throws RemoteException, FileNotFoundException {
-        Arquivo arquivo = buscarArquivo(nomeArq);
-        arquivo.getControle().acquireWriteLock();
-        arquivo.write(conteudo);
-        arquivo.getControle().releaseWriteLock();
-        
-    }
-
-    private Arquivo buscarArquivo(String nomeArq) throws FileNotFoundException {
-        for (Arquivo arquivo : arquivos) {
-            if(arquivo.getNome().equals(nomeArq)){               
-                return arquivo;
-            }
-        }        
-        throw new FileNotFoundException();
-    }
-
-    private void popular(){
-        Arquivo a1 = new Arquivo("arquivo1.txt", new ControleConcorrencia());
-        Arquivo a2 = new Arquivo("arquivo2.txt", new ControleConcorrencia());
-        Arquivo a3 = new Arquivo("arquivo3.txt", new ControleConcorrencia());
-        arquivos = Arrays.asList(a1, a2, a3);
-        
+    public void write(String nomeArq, List<String> conteudo) throws RemoteException, InterruptedException, FileNotFoundException {
+        GerenciadorArquivo gerenciador = find(nomeArq);
+        gerenciador.write(conteudo);
     }
      
+    private GerenciadorArquivo find(String nomeArq) throws FileNotFoundException {
+        for(GerenciadorArquivo gerenciador: gerenciadores){
+            if(gerenciador.getArquivo().getNome().equals(nomeArq)){
+                return gerenciador;
+            }
+        }
+        throw new FileNotFoundException("Arquivo nao encontrado");
+    }
+
+    /*
+        Metodo auxiliar para iniciar uma lista com os arquivos, 
+        e seus respectivos gerenciadores
+    */
+    private void init(String tipoPrioridade){
+        ControladorConcorrencia c1 = ControladorConcorrenciaFactory.create(tipoPrioridade);
+        Arquivo a1 = new Arquivo(NOME_ARQUIVO_1);
+        ControladorConcorrencia c2 = ControladorConcorrenciaFactory.create(tipoPrioridade);
+        Arquivo a2 = new Arquivo(NOME_ARQUIVO_2);
+        ControladorConcorrencia c3 = ControladorConcorrenciaFactory.create(tipoPrioridade);
+        Arquivo a3 = new Arquivo(NOME_ARQUIVO_3);
+        GerenciadorArquivo g1 = new GerenciadorArquivo(c1, a1);
+        GerenciadorArquivo g2 = new GerenciadorArquivo(c1, a1);
+        GerenciadorArquivo g3 = new GerenciadorArquivo(c1, a1);
+        gerenciadores = Arrays.asList(g1, g2, g3);
+        
+    }
 }

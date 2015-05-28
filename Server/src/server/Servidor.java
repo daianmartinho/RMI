@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmi;
+package server;
 
 import java.io.FileNotFoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Collection;
 import java.util.List;
 
-
+/**
+ *
+ * @author lucas
+ */
 public interface Servidor extends Remote{
-    
-    List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, FileNotFoundException;
-    void write(String nomeArq, List<String> conteudo) throws RemoteException, FileNotFoundException;
-    
+    List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, InterruptedException, FileNotFoundException;
+    void write(String nomeArq, List<String> conteudo) throws RemoteException, InterruptedException, FileNotFoundException;
 }
