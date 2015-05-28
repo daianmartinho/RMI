@@ -67,8 +67,8 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor{
         ControladorConcorrencia c3 = ControladorConcorrenciaFactory.create(tipoPrioridade);
         Arquivo a3 = new Arquivo(NOME_ARQUIVO_3);
         GerenciadorArquivo g1 = new GerenciadorArquivo(c1, a1);
-        GerenciadorArquivo g2 = new GerenciadorArquivo(c1, a1);
-        GerenciadorArquivo g3 = new GerenciadorArquivo(c1, a1);
+        GerenciadorArquivo g2 = new GerenciadorArquivo(c2, a1);
+        GerenciadorArquivo g3 = new GerenciadorArquivo(c3, a1);
         gerenciadores = Arrays.asList(g1, g2, g3);
         
     }
