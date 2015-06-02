@@ -20,8 +20,8 @@ public class Leitor implements Runnable {
     }
 
     public static void main(String[] args) {
-        //to criando 2 threads pra cada arquivo
-        for (int i = 0; i < 6; i++) {
+        //
+        for (int i = 0; i < 3; i++) {
             (new Thread(new Leitor("arquivo1.txt"))).start();
             //(new Thread(new Reader("arquivo2.txt"))).start();
             //(new Thread(new Reader("arquivo3.txt"))).start();
@@ -32,7 +32,7 @@ public class Leitor implements Runnable {
         try {
             Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             this.db = (Servidor) reg.lookup("RWAPI");
-            System.out.println(Thread.currentThread() + "conectou ao server no " + this.arquivo);
+            System.out.println(Thread.currentThread().getId() + "conectou ao server no " + this.arquivo);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -48,8 +48,8 @@ public class Leitor implements Runnable {
 
             List<String> text;
             try {
-                text = db.read(this.arquivo, 0, 1);
-                System.out.println(Thread.currentThread().getName() +" leitura:" + "\n"+ text);
+                text = db.read(this.arquivo, 0, 5);
+                System.out.println(Thread.currentThread().getId()+" leu:" + "\n"+ text);
 
             } catch (RemoteException ex) {
                 System.out.println("Problema no acesso remoto");

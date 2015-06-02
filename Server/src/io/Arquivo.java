@@ -28,28 +28,26 @@ public class Arquivo {
 
     public List<String> read(int inicio, int qtdLinhas) throws RemoteException {
         List<String> linhas = new ArrayList();
-        long ponteiro = 0;        
+        long ponteiro = 2;//arquivo vazio tem 2 bytes não sei pq        
         int contaLinhas = 0;
         
         try {
             RandomAccessFile raf = new RandomAccessFile(nome, "r");
-            //encontra linha
-            raf.seek(0);            
+            //encontra linha            
+            raf.seek(ponteiro); 
             while(inicio!=contaLinhas){
                 raf.seek(ponteiro);//sempre reposicionar pois outra thread pode modificar o ponteiro durante a execução
                 raf.readUTF();                
-                contaLinhas++;
+                contaLinhas++;               
                 ponteiro = raf.getFilePointer();
             }            
                                   
             while (qtdLinhas != 0) {
-                raf.seek(ponteiro); 
-                System.out.println(ponteiro);
+                raf.seek(ponteiro);                 
                 String linha = raf.readUTF();
                 ponteiro = raf.getFilePointer();
-                System.out.println(Thread.currentThread().getName()+" leu "+linha + "ponteiro = " + ponteiro);
-                linhas.add(linha);
-                
+                System.out.println(Thread.currentThread().getId()+" leu "+linha + "    ponteiro = " + ponteiro);
+                linhas.add(linha);                
                 qtdLinhas--;               
 
             }
@@ -69,8 +67,12 @@ public class Arquivo {
         try {
             RandomAccessFile raf = new RandomAccessFile(nome, "rw");
             for (String linha : linhas) {
-                raf.seek(raf.length());               
+                //System.out.println(""+raf.length());
+                long eof = raf.length(); //guardando o final do arquivo
+                raf.seek(eof);               
                 raf.writeUTF(linha);
+                raf.seek(eof);//verificando o conteudo escrito
+                System.out.println(""+raf.readUTF());
             }
             raf.close();
 

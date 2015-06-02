@@ -25,8 +25,8 @@ public class Escritor implements Runnable {
     private final String arquivo;
 
     public static void main(String[] args) {
-        //to criando 2 threads pra cada arquivo
-        for (int i = 0; i < 10; i++) {
+        //define qtd de threads
+        for (int i = 0; i < 6; i++) {
             (new Thread(new Escritor("arquivo1.txt"))).start();
             //(new Thread(new Escritor("arquivo1.txt"))).start();
             //(new Thread(new Reader("arquivo3.txt"))).start();
@@ -40,7 +40,7 @@ public class Escritor implements Runnable {
         try {
             Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             this.db = (Servidor) reg.lookup("RWAPI");
-            System.out.println(Thread.currentThread() + "conectou ao server no " + this.arquivo);
+            System.out.println(Thread.currentThread().getId() + " conectou no " + this.arquivo);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -55,7 +55,8 @@ public class Escritor implements Runnable {
         while (running) {
             
             List<String> conteudo = new ArrayList();
-            conteudo.add(""+Thread.currentThread());
+            //adicionei um valor qualquer na lista, só pra ter oq escrever no arquivo.
+            conteudo.add(""+Thread.currentThread().getId());
             try {
                 db.write(this.arquivo, conteudo);
                // System.out.println(Thread.currentThread() + "\n"+ text);
