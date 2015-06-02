@@ -6,6 +6,7 @@
 package main;
 
 import concorrencia.ControladorConcorrenciaFactory;
+import concorrencia.TipoPrioridade;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import server.Servidor;
@@ -19,10 +20,10 @@ public class MainPrioriadadeEscritor {
     public static void main(String[] args) {
         try {
             Registry reg = LocateRegistry.createRegistry(1099);
-            Servidor servidor = new ServidorImpl(ControladorConcorrenciaFactory.PRIORIDADE_ESCRITOR);
+            Servidor servidor = new ServidorImpl(TipoPrioridade.PRIORIDADE_ESCRITOR);
             reg.rebind("RWAPI", servidor);
             System.out.println("Servidor rodando");
-            System.out.println("Tipo de prioridade: " + ControladorConcorrenciaFactory.PRIORIDADE_ESCRITOR);
+            System.out.println("Tipo de prioridade: " + TipoPrioridade.PRIORIDADE_ESCRITOR);
         } catch (Exception e) {
             System.out.println(e);
         }

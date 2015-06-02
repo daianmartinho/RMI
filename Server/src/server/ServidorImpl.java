@@ -7,6 +7,7 @@ package server;
 
 import concorrencia.ControladorConcorrencia;
 import concorrencia.ControladorConcorrenciaFactory;
+import concorrencia.TipoPrioridade;
 import io.Arquivo;
 import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
@@ -29,7 +30,7 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor{
     private static final String NOME_ARQUIVO_3 = "/home/lucas/Documents/teste3.txt";
     
     
-    public ServidorImpl(String tipoPrioridade)throws RemoteException{
+    public ServidorImpl(TipoPrioridade tipoPrioridade) throws RemoteException{
         super();
         init(tipoPrioridade);
     }
@@ -59,7 +60,7 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor{
         Metodo auxiliar para iniciar uma lista com os arquivos, 
         e seus respectivos gerenciadores
     */
-    private void init(String tipoPrioridade){
+    private void init(TipoPrioridade tipoPrioridade){
         ControladorConcorrencia c1 = ControladorConcorrenciaFactory.create(tipoPrioridade);
         Arquivo a1 = new Arquivo(NOME_ARQUIVO_1);
         ControladorConcorrencia c2 = ControladorConcorrenciaFactory.create(tipoPrioridade);
