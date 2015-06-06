@@ -40,18 +40,16 @@ public class ControladorConcorrenciaFactoryTest {
     @Test
     public void testConstrutores(){
         ControladorConcorrencia controladorPrioridadeLeitor = ControladorConcorrenciaFactory.
-                create(ControladorConcorrenciaFactory.PRIORIDADE_LEITOR);
+                create(TipoPrioridade.PRIORIDADE_LEITOR);
         ControladorConcorrencia controladorPrioridadeEscritor = ControladorConcorrenciaFactory.
-                create(ControladorConcorrenciaFactory.PRIORIDADE_ESCRITOR);
+                create(TipoPrioridade.PRIORIDADE_ESCRITOR);
         ControladorConcorrencia controladorSemPrioridade = ControladorConcorrenciaFactory.
-                create(ControladorConcorrenciaFactory.SEM_PRIORIDADE);
-        ControladorConcorrencia controladorDefault = ControladorConcorrenciaFactory.
-                create("");
+                create(TipoPrioridade.SEM_PRIORIDADE);
        
         assertEquals(controladorPrioridadeLeitor.getClass().getName(), ControladorConcorrenciaPrioridadeLeitor.class.getName());
         assertEquals(controladorPrioridadeEscritor.getClass().getName(), ControladorConcorrenciaPrioridadeEscritor.class.getName());
         assertEquals(controladorSemPrioridade.getClass().getName(), ControladorConcorrenciaSemPrioridade.class.getName());
-        assertEquals(controladorDefault.getClass().getName(), ControladorConcorrenciaSemPrioridade.class.getName());
+        
         
        
     }

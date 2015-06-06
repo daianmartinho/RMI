@@ -37,6 +37,7 @@ public class Leitor implements Runnable {
         // INICIALIZA THREAD DE LEITURA
         inicializaLeitura();
     }
+<<<<<<< HEAD
     
     /*
         MÉTODO QUE CRIA A THREAD NO CASO DE EXECUÇÃO COM THREADS.
@@ -45,6 +46,29 @@ public class Leitor implements Runnable {
         new Thread(this).start();
     }
     
+=======
+
+    public static void main(String[] args) {
+        //
+        for (int i = 0; i < 3; i++) {
+            (new Thread(new Leitor("arquivo1.txt"))).start();
+            //(new Thread(new Reader("arquivo2.txt"))).start();
+            //(new Thread(new Reader("arquivo3.txt"))).start();
+        }
+    }
+
+    private void connectServer() {
+        try {
+            Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
+            this.db = (Servidor) reg.lookup("RWAPI");
+            System.out.println(Thread.currentThread().getId() + "conectou ao server no " + this.arquivo);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+>>>>>>> origin/master
     @Override
     public void run() {
         //primeira coisa q a thread faz quando inicia é conectar com o servidor
@@ -53,8 +77,13 @@ public class Leitor implements Runnable {
         while (running) {
             List<String> text;
             try {
+<<<<<<< HEAD
                 text = db.read(this.arquivo, linhaInicio, qtdLinhasLidas);
                 System.out.println(Thread.currentThread().getName() +" \nLido do arquivo "+this.arquivo + ":\n"+ text);
+=======
+                text = db.read(this.arquivo, 0, 5);
+                System.out.println(Thread.currentThread().getId()+" leu:" + "\n"+ text);
+>>>>>>> origin/master
 
             } catch (RemoteException ex) {
                 System.out.println("Problema no acesso remoto");

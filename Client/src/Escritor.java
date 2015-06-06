@@ -17,12 +17,25 @@ public class Escritor implements Runnable {
     private final String arquivo;
     private final List<String> conteudo;
 
+<<<<<<< HEAD
     /*----------------------------------------------------------------------------------------------------
     ------------------------------------ BLOCO PARA USO DE THREADS ---------------------------------------
     -----------------------------------------------------------------------------------------------------*/
     
     public Escritor(String arq, String c) {
         
+=======
+    public static void main(String[] args) {
+        //define qtd de threads
+        for (int i = 0; i < 6; i++) {
+            (new Thread(new Escritor("arquivo1.txt"))).start();
+            //(new Thread(new Escritor("arquivo1.txt"))).start();
+            //(new Thread(new Reader("arquivo3.txt"))).start();
+        }
+    }
+
+    public Escritor(String arq) {
+>>>>>>> origin/master
         this.arquivo = arq;
         this.conteudo = new ArrayList();
         this.conteudo.add(c);
@@ -30,9 +43,21 @@ public class Escritor implements Runnable {
         // INICIALIZA THREAD DE ESCRITA
         inicializaEscrita();
     }
+<<<<<<< HEAD
     
     private void inicializaEscrita(){
         new Thread(this).start();
+=======
+    private void connectServer() {
+        try {
+            Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
+            this.db = (Servidor) reg.lookup("RWAPI");
+            System.out.println(Thread.currentThread().getId() + " conectou no " + this.arquivo);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+>>>>>>> origin/master
     }
     
     @Override
@@ -42,8 +67,14 @@ public class Escritor implements Runnable {
 
         while (running) {
             
+<<<<<<< HEAD
             //List<String> conteudo = new ArrayList();
             //conteudo.add(""+Thread.currentThread());
+=======
+            List<String> conteudo = new ArrayList();
+            //adicionei um valor qualquer na lista, só pra ter oq escrever no arquivo.
+            conteudo.add(""+Thread.currentThread().getId());
+>>>>>>> origin/master
             try {
                 db.write(this.arquivo, this.conteudo);
                // System.out.println(Thread.currentThread() + "\n"+ text);

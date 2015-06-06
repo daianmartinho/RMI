@@ -11,11 +11,7 @@ package concorrencia;
  */
 public class ControladorConcorrenciaFactory {
     
-    public final static String PRIORIDADE_ESCRITOR = "PrioridadeEscritor";
-    public final static String PRIORIDADE_LEITOR = "PrioridadeLeitor";
-    public final static String SEM_PRIORIDADE = "SemPrioridade";
-    
-    public static ControladorConcorrencia create(String tipoPrioridade) {
+    public static ControladorConcorrencia create(TipoPrioridade tipoPrioridade) {
         if(tipoPrioridade == null){
             throw new RuntimeException("Tipo de controlador de concorrencia invalido");
         }
