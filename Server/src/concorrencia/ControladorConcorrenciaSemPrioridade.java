@@ -23,11 +23,13 @@ public class ControladorConcorrenciaSemPrioridade implements ControladorConcorre
     @Override
     public void acquireReadLock() throws RemoteException, InterruptedException {
         ordem.acquire(); // marcar ordem de chegada
+        System.out.println("Servidor: " + Thread.currentThread().getId() + " pediu para read");
         mutexLeitura.acquire(); //vamos manipular a variavel 'numeroLeitores'
+        numeroLeitores++;
         if(numeroLeitores == 1){ // se sou o primeiro leitor, peco acesso exclusivo
             acesso.acquire();
         }
-        numeroLeitores++;
+        
         ordem.release(); 
         mutexLeitura.release();
     }
@@ -35,6 +37,7 @@ public class ControladorConcorrenciaSemPrioridade implements ControladorConcorre
     @Override
     public void acquireWriteLock() throws RemoteException, InterruptedException {
         ordem.acquire(); // marcar ordem de chegada
+        System.out.println("Servidor: " + Thread.currentThread().getId() + " pediu para write");
         acesso.acquire(); // pedir acesso exclusivo
         ordem.release();
     }
