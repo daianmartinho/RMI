@@ -28,7 +28,7 @@ public class Arquivo {
     }
 
     public List<String> read(int inicio, int qtdLinhas) throws RemoteException {
-        System.out.println("Servidor: " + Thread.currentThread().getId() + " vai read");
+        //System.out.println("Servidor: " + Thread.currentThread().getId() + " vai ler");
         List<String> linhas = new ArrayList();
         long ponteiro = 2;//arquivo vazio tem 2 bytes não sei pq        
         int contaLinhas = 0;
@@ -48,7 +48,7 @@ public class Arquivo {
                 raf.seek(ponteiro);
                 String linha = raf.readUTF();
                 ponteiro = raf.getFilePointer();
-                System.out.println(Thread.currentThread().getId() + " leu " + linha + "    ponteiro = " + ponteiro);
+                System.out.println(Thread.currentThread().getId() + ": LEU \"" + linha + "\" do " + nome);
                 linhas.add(linha);
                 qtdLinhas--;
 
@@ -67,7 +67,7 @@ public class Arquivo {
     }
 
     public void write(List<String> linhas) throws RemoteException {
-        System.out.println("Servidor: " + Thread.currentThread().getId() + " vai write");
+        //System.out.println("Servidor: " + Thread.currentThread().getId() + " vai escrever");
         try {
             RandomAccessFile raf = new RandomAccessFile(nome, "rw");
             for (String linha : linhas) {
@@ -76,7 +76,7 @@ public class Arquivo {
                 raf.seek(eof);
                 raf.writeUTF(linha);
                 raf.seek(eof);//verificando o conteudo escrito
-                System.out.println("foi escrito \"" + raf.readUTF() + "\" no " + nome);
+                System.out.println(Thread.currentThread().getId() +": ESCREVEU \"" + raf.readUTF() + "\" no " + nome);
             }
             raf.close();
 

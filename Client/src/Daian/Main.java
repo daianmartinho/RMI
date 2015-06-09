@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
         Random r = new Random();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 5; i++) {
             new Daian.Escritor("arquivo" + r.nextInt(3) + ".txt");
             new Daian.Leitor("arquivo" + r.nextInt(3) + ".txt", 0, 1);
 

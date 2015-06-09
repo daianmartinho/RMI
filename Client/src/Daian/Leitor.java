@@ -4,10 +4,7 @@ import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import server.Servidor;
 
 public class Leitor implements Runnable {
@@ -19,8 +16,9 @@ public class Leitor implements Runnable {
     private final int qtdLinhasLidas;
 
     public static void main(String[] args) {
-        new Daian.Leitor("arquivo1.txt",0,2);
+        new Daian.Leitor("arquivo1.txt", 0, 2);
     }
+
     public Leitor(String nomeArq, int inicio, int qtdLinhas) {
 
         // RECEBE PARÂMETROS PARA LEITURA
@@ -30,7 +28,7 @@ public class Leitor implements Runnable {
 
         // INICIALIZA THREAD DE LEITURA
         //for (int i = 0; i < 5; i++) {
-            inicializaLeitura();
+        inicializaLeitura();
         //}
 
     }
@@ -52,8 +50,7 @@ public class Leitor implements Runnable {
             try {
 
                 text = db.read(this.arquivo, linhaInicio, qtdLinhasLidas);
-                System.out.println(Thread.currentThread().getId() + ": lido do arquivo " + this.arquivo + ": " + text.toString());
-                
+                System.out.println(Thread.currentThread().getId() + ": LEU " + text.toString() + " do " + this.arquivo);
 
             } catch (RemoteException ex) {
                 System.out.println("Problema no acesso remoto");
@@ -68,14 +65,13 @@ public class Leitor implements Runnable {
         }
     }
 
-    
     private void connectServer() {
 
         try {
 
             Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             this.db = (Servidor) reg.lookup("RWAPI");
-            System.out.println(Thread.currentThread().getId() + ": conectou ao servidor para leitura do arquivo " + this.arquivo);
+            System.out.println(Thread.currentThread().getId() + ": conectou para leitura em " + this.arquivo);
 
         } catch (Exception e) {
 

@@ -50,7 +50,7 @@ public class Escritor implements Runnable {
 
             try {
                 db.write(this.arquivo, conteudo);
-                System.out.println("escrito \""+conteudo+"\" no "+this.arquivo);
+                System.out.println(Thread.currentThread().getId() + ": ESCREVEU "+conteudo+" no "+this.arquivo);
 
             } catch (RemoteException ex) {
                 System.out.println("Problema no acesso remoto");
@@ -69,7 +69,7 @@ public class Escritor implements Runnable {
         try {
             Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             this.db = (Servidor) reg.lookup("RWAPI");
-            System.out.println(Thread.currentThread().getId() + ": conectou ao servidor para escrita no arquivo " + this.arquivo);
+            System.out.println(Thread.currentThread().getId() + ": conectou para escrita em " + this.arquivo);
 
         } catch (Exception e) {
             System.out.println(e);
