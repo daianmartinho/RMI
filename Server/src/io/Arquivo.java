@@ -72,7 +72,7 @@ public class Arquivo {
                 raf.seek(eof);               
                 raf.writeUTF(linha);
                 raf.seek(eof);//verificando o conteudo escrito
-                System.out.println(""+raf.readUTF());
+                System.out.println("foi escrito \""+raf.readUTF() + "\" no " +nome);
             }
             raf.close();
 
@@ -81,7 +81,7 @@ public class Arquivo {
         } catch (IOException ex) {
             System.out.println("write: Número de linha inválido");
         }
-        System.out.println("Escrevendo no servidor..");
+        //System.out.println("Escrevendo no servidor..");
     }
 
     public String getNome() {
