@@ -24,12 +24,12 @@ public class ControladorConcorrenciaSemPrioridade implements ControladorConcorre
     public void acquireReadLock() throws RemoteException, InterruptedException {
         ordem.acquire(); // marcar ordem de chegada
         mutexLeitura.acquire(); //vamos manipular a variavel 'numeroLeitores'
+        numeroLeitores++;
         if(numeroLeitores == 1){ // se sou o primeiro leitor, peco acesso exclusivo
             acesso.acquire();
-        }
-        numeroLeitores++;
-        ordem.release(); 
+        }                 
         mutexLeitura.release();
+        ordem.release();
     }
 
     @Override

@@ -5,21 +5,22 @@
  */
 package Daian;
 
+import java.util.Random;
+
 /**
  *
  * @author Daian
  */
 public class Main {
     public static void main(String[] args) {
-               
-        for (int i = 0; i < 50; i++) {
-            new Daian.Escritor("arquivo1.txt"); 
-            new Daian.Leitor("arquivo1.txt",0,1);
+        Random r = new Random();       
+        for (int i = 0; i < 5; i++) {
+            new Daian.Escritor("arquivo"+r.nextInt(3)+".txt"); 
+            new Daian.Leitor("arquivo"+r.nextInt(3)+".txt",0,1);
+            //new Daian.Escritor("arquivo0.txt");
+            //new Daian.Leitor("arquivo0.txt",0,1);
             
         }
-
-        
-        
         
     }
 }
