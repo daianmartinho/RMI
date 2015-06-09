@@ -50,7 +50,7 @@ public class Escritor implements Runnable {
 
             try {
                 db.write(this.arquivo, conteudo);
-                System.out.println("escrito \""+conteudo+"\" no "+this.arquivo);
+                System.out.println(conteudo);
 
             } catch (RemoteException ex) {
                 System.out.println("Problema no acesso remoto");

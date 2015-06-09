@@ -25,9 +25,9 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor{
     
     private Collection<GerenciadorArquivo> gerenciadores;
     // ALTERE AQUI PARA O CAMINHO DOS SEUS ARQUIVOS
-    private static final String NOME_ARQUIVO_1 = "arquivo0.txt";
-    private static final String NOME_ARQUIVO_2 = "arquivo1.txt";
-    private static final String NOME_ARQUIVO_3 = "arquivo2.txt";
+    private static final String NOME_ARQUIVO_1 = "arquivo1.txt";
+    private static final String NOME_ARQUIVO_2 = "arquivo2.txt";
+    private static final String NOME_ARQUIVO_3 = "arquivo3.txt";
     
     
     public ServidorImpl(TipoPrioridade tipoPrioridade) throws RemoteException{
