@@ -5,14 +5,13 @@
  */
 package io;
 
+import java.io.EOFException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +26,7 @@ public class Arquivo {
     }
 
     public List<String> read(int inicio, int qtdLinhas) throws RemoteException {
+        System.out.println("Servidor: " + Thread.currentThread().getId() + " vai read");
         List<String> linhas = new ArrayList();
         long ponteiro = 2;//arquivo vazio tem 2 bytes não sei pq        
         int contaLinhas = 0;
@@ -56,14 +56,18 @@ public class Arquivo {
             //}
         } catch (FileNotFoundException ex) {
             System.out.println("read: arquivo nao encontrado");
-        } catch (IOException ex) {
-            Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EOFException ex) {
+            System.out.println("ERRO: END OF FILE");
+        } 
+        catch (IOException ex) {
+            System.out.println(ex.getMessage());
         } 
 
         return linhas;
     }
 
     public void write(List<String> linhas) throws RemoteException {
+        System.out.println("Servidor: " + Thread.currentThread().getId() + " vai write");
         try {
             RandomAccessFile raf = new RandomAccessFile(nome, "rw");
             for (String linha : linhas) {

@@ -5,6 +5,8 @@
  */
 package Daian;
 
+import java.util.Random;
+
 /**
  *
  * @author Daian
@@ -13,8 +15,10 @@ public class Main {
     public static void main(String[] args) {
                
         for (int i = 0; i < 50; i++) {
-            new Daian.Escritor("arquivo1.txt"); 
-            new Daian.Leitor("arquivo1.txt",0,1);
+            new Daian.Escritor("/home/lucas/Documents/teste.txt");
+            Random random = new Random();
+            int qtd = random.nextInt(50);
+            new Daian.Leitor("/home/lucas/Documents/teste.txt",0,qtd);
             
         }
 
