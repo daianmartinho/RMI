@@ -17,7 +17,7 @@ public class ControladorConcorrenciaPrioridadeEscritor implements ControladorCon
 
     private final Semaphore acessoEscrita = new Semaphore(1);
     private final Semaphore acessoLeitura = new Semaphore(1);
-    private final Semaphore setupLeitura = new Semaphore(1);
+    private final Semaphore entradaLeitura = new Semaphore(1);
     private final Semaphore mutexLeitura = new Semaphore(1);
     private final Semaphore mutexEscrita = new Semaphore(1);
     
@@ -26,7 +26,7 @@ public class ControladorConcorrenciaPrioridadeEscritor implements ControladorCon
 
     @Override
     public void acquireReadLock() throws RemoteException, InterruptedException {
-        setupLeitura.acquire();
+        entradaLeitura.acquire();
         acessoLeitura.acquire();//Indica que um leitor esta tentando entrar
         mutexLeitura.acquire();
         numeroLeitores++;
@@ -35,7 +35,7 @@ public class ControladorConcorrenciaPrioridadeEscritor implements ControladorCon
         }
         mutexLeitura.release();
         acessoLeitura.release();
-        setupLeitura.release();
+        entradaLeitura.release();
     }
 
     @Override
