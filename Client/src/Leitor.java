@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +58,11 @@ public class Leitor implements Runnable {
             try {
 
                 text = db.read(this.arquivo, linhaInicio, qtdLinhasLidas);
-                System.out.println(Thread.currentThread().getName() +" \nLido do arquivo "+this.arquivo + ":\n"+ text);
+                System.out.println(Thread.currentThread().getName() +": lido do arquivo "+this.arquivo + ":\n");
+                for (Iterator<String> iterator = text.iterator(); iterator.hasNext();) {
+                    String next = iterator.next().toString();
+                    System.out.print(next+" ");
+                }
 
 
             } catch (RemoteException ex) {
@@ -132,7 +137,7 @@ public class Leitor implements Runnable {
             
             Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             this.db = (Servidor) reg.lookup("RWAPI");
-            System.out.println("Conectou ao servidor para leitura do arquivo " + this.arquivo);
+            System.out.println(Thread.currentThread() + ": conectou ao servidor para leitura do arquivo " + this.arquivo);
             
         } catch (Exception e) {
             

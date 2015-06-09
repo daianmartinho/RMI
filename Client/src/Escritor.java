@@ -118,7 +118,7 @@ public class Escritor implements Runnable {
         try {
             Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
             this.db = (Servidor) reg.lookup("RWAPI");
-            System.out.println(Thread.currentThread() + "conectou ao servidor para escrita no arquivo " + this.arquivo);
+            System.out.println(Thread.currentThread() + ": conectou ao servidor para escrita no arquivo " + this.arquivo);
 
         } catch (Exception e) {
             System.out.println(e);
