@@ -5,7 +5,7 @@
  */
 package server;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,6 +15,6 @@ import java.util.List;
  * @author lucas
  */
 public interface Servidor extends Remote{
-    List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, InterruptedException, FileNotFoundException;
-    void write(String nomeArq, List<String> conteudo) throws RemoteException, InterruptedException, FileNotFoundException;
+    List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, InterruptedException, IOException;
+    void write(String nomeArq, List<String> conteudo) throws RemoteException, InterruptedException, IOException;
 }

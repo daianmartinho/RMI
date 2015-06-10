@@ -8,6 +8,7 @@ package server;
 import concorrencia.ControladorConcorrencia;
 import io.Arquivo;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -26,14 +27,14 @@ public class GerenciadorArquivo {
         this.arquivo = arquivo;
     } 
     
-    public List<String> read(int numLinha, int qtdLinhas) throws RemoteException, InterruptedException {
+    public List<String> read(int numeroLinha, int quantidadeDeLinhas) throws RemoteException, InterruptedException, IOException {
         controlador.acquireReadLock();
-        List<String> conteudoLido = arquivo.read(numLinha, qtdLinhas);
+        List<String> conteudoLido = arquivo.read(numeroLinha, quantidadeDeLinhas);
         controlador.releaseReadLock();
         return conteudoLido;
     }
     
-    public void write(List<String> conteudo) throws RemoteException, FileNotFoundException, InterruptedException {
+    public void write(List<String> conteudo) throws RemoteException, FileNotFoundException, InterruptedException, IOException {
         controlador.acquireWriteLock();
         arquivo.write(conteudo);
         controlador.releaseWriteLock();

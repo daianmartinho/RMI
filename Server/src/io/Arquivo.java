@@ -5,15 +5,18 @@
  */
 package io;
 
-import java.io.EOFException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.rmi.RemoteException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,67 +30,58 @@ public class Arquivo {
         this.nome = nome;
     }
 
-    public List<String> read(int inicio, int qtdLinhas) throws RemoteException {
-        //System.out.println("Servidor: " + Thread.currentThread().getId() + " vai ler");
-        List<String> linhas = new ArrayList();
-        long ponteiro = 2;//arquivo vazio tem 2 bytes não sei pq        
-        int contaLinhas = 0;
-
-        try {
-            RandomAccessFile raf = new RandomAccessFile(nome, "r");
-            //encontra linha            
-            raf.seek(ponteiro);
-            while (inicio != contaLinhas) {
-                raf.seek(ponteiro);//sempre reposicionar pois outra thread pode modificar o ponteiro durante a execução
-                raf.readUTF();
-                contaLinhas++;
-                ponteiro = raf.getFilePointer();
-            }
-
-            while (qtdLinhas != 0) {
-                raf.seek(ponteiro);
-                String linha = raf.readUTF();
-                ponteiro = raf.getFilePointer();
-                System.out.println(Thread.currentThread().getId() + ": LEU \"" + linha + "\" do " + nome);
-                linhas.add(linha);
-                qtdLinhas--;
-
-            }
-            //if(controle.getNumeroLeitores()==1){
-            raf.close();
-            //}
-        } catch (FileNotFoundException ex) {
-            System.out.println("read: arquivo nao encontrado");
-        } catch (EOFException ex) {
-            System.out.println("ERRO: END OF FILE");
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+    public List<String> read(Integer linhaInicial, Integer quantidadeDeLinhas) throws IOException {
+        if (linhaInicial <= 0) {
+            throw new IllegalArgumentException("Linha inicial deve ser maior que 0");
         }
-        return linhas;
+        if (quantidadeDeLinhas <= 0) {
+            throw new IllegalArgumentException("Numero de linhas deve ser maior que 0");
+        }
+        int linhaFinal = linhaInicial + quantidadeDeLinhas;
+        
+        BufferedReader br = getBufferedReader();
+
+        List<String> retorno = new ArrayList<String>();
+
+        int numeroLinha = 0;
+        String linhaLida = br.readLine();
+        while (linhaLida != null) {
+            numeroLinha++;
+            
+            if((numeroLinha >= linhaInicial) && (numeroLinha <= linhaFinal)){
+                retorno.add(linhaLida);
+            }
+
+            linhaLida = br.readLine();
+        }
+        br.close();
+        return retorno;
     }
 
-    public void write(List<String> linhas) throws RemoteException {
-        //System.out.println("Servidor: " + Thread.currentThread().getId() + " vai escrever");
-        try {
-            RandomAccessFile raf = new RandomAccessFile(nome, "rw");
-            for (String linha : linhas) {
-                //System.out.println(""+raf.length());
-                long eof = raf.length(); //guardando o final do arquivo
-                raf.seek(eof);
-                raf.writeUTF(linha);
-                raf.seek(eof);//verificando o conteudo escrito
-                System.out.println(Thread.currentThread().getId() +": ESCREVEU \"" + raf.readUTF() + "\" no " + nome);
-            }
-            raf.close();
+    public void write(List<String> novoConteudo) throws IOException {
+        
+        BufferedWriter bw = getBufferedWritter();
 
-        } catch (FileNotFoundException ex) {
-            System.out.println("write: arquivo nao encontrado");
-        } catch (IOException ex) {
-            System.out.println("write: Número de linha inválido");
+        for (String str : novoConteudo) {
+            bw.write(str);
+            bw.newLine();
         }
-        //System.out.println("Escrevendo no servidor..");
+
+        bw.close();
     }
 
+    private BufferedReader getBufferedReader() throws FileNotFoundException{
+        InputStream is = new FileInputStream(nome);
+        InputStreamReader isr = new InputStreamReader(is);
+        return new BufferedReader(isr);
+    }
+    
+    private BufferedWriter getBufferedWritter() throws FileNotFoundException{
+        OutputStream os = new FileOutputStream(nome, true);
+        OutputStreamWriter ows = new OutputStreamWriter(os);
+        return new BufferedWriter(ows);
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -95,5 +89,4 @@ public class Arquivo {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
 }

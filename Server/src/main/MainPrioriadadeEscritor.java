@@ -5,7 +5,6 @@
  */
 package main;
 
-import concorrencia.ControladorConcorrenciaFactory;
 import concorrencia.TipoPrioridade;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

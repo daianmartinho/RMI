@@ -10,6 +10,7 @@ import concorrencia.ControladorConcorrenciaFactory;
 import concorrencia.TipoPrioridade;
 import io.Arquivo;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Arrays;
@@ -36,13 +37,13 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor{
     }
 
     @Override
-    public List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, InterruptedException, FileNotFoundException {
+    public List<String> read(String nomeArq, int numLinha, int qtdLinhas) throws RemoteException, InterruptedException, IOException {
         GerenciadorArquivo gerenciador = find(nomeArq);
         return gerenciador.read(numLinha, qtdLinhas); 
     }
 
     @Override
-    public void write(String nomeArq, List<String> conteudo) throws RemoteException, InterruptedException, FileNotFoundException {
+    public void write(String nomeArq, List<String> conteudo) throws RemoteException, InterruptedException, IOException {
         GerenciadorArquivo gerenciador = find(nomeArq);
         gerenciador.write(conteudo);
     }

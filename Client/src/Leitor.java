@@ -1,5 +1,6 @@
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -60,7 +61,7 @@ public class Leitor implements Runnable {
                 text = db.read(this.arquivo, linhaInicio, qtdLinhasLidas);
                 System.out.println(Thread.currentThread().getName() +": lido do arquivo "+this.arquivo + ":\n");
                 for (Iterator<String> iterator = text.iterator(); iterator.hasNext();) {
-                    String next = iterator.next().toString();
+                    String next = iterator.next();
                     System.out.print(next+" ");
                 }
 
@@ -69,7 +70,7 @@ public class Leitor implements Runnable {
                 System.out.println("Problema no acesso remoto");
             } catch (FileNotFoundException ex) {
                 System.out.println("Arquivo não encontrado");
-            } catch (InterruptedException ex) {
+            } catch (InterruptedException | IOException ex) {
                 ex.printStackTrace();
             }
 
