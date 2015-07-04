@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/lucas/teste/RMI/Client/src/Main.java</file>
+            <file>file:/home/lucas/teste/RMI/Client/src/Escritor.java</file>
+            <file>file:/home/lucas/teste/RMI/Client/src/ExemploDeChamadaMain.java</file>
+            <file>file:/home/lucas/teste/RMI/Client/src/main/Escritor.java</file>
+            <file>file:/home/lucas/teste/RMI/Client/src/main/Main.java</file>
+            <file>file:/home/lucas/teste/RMI/Client/src/main/Leitor.java</file>
         </group>
     </open-files>
 </project-private>
